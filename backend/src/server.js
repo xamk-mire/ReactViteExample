@@ -38,6 +38,7 @@ if (!!dbContext && dbContext == "postgreSQL") {
   app.use('/api/contacts', contactRouterPostgreSQL);
 } else {
   // Connect to mongodb
+  // In case of ECONNREFUSED error, try changing the localhost to 0.0.0.0 or 127.0.0.1 
   mongoose.connect('mongodb://localhost:27017/ContactsDB');
   const db = mongoose.connection;
   db.on('error', (error) => console.error(error));
