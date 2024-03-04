@@ -1,6 +1,7 @@
-
 namespace AspNetBackend
 {
+    using Microsoft.EntityFrameworkCore;
+
     public class Program
     {
         public static void Main(string[] args)
@@ -13,6 +14,11 @@ namespace AspNetBackend
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            // Configure DbContext with SQL Server
+            builder.Services.AddDbContext<ContactDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("ContactsDB")));
+
 
             var app = builder.Build();
 
