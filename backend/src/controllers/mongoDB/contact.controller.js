@@ -1,4 +1,4 @@
-import { Contact } from '../../models/mongoDB/contact.js';
+import { Contact } from "../../models/mongoDB/contact.js";
 
 // Retrieve all Contact from the database.
 export async function findByQuery(req, res) {
@@ -14,8 +14,12 @@ export async function findByQuery(req, res) {
 // Find a single Contact with an contactId
 export async function findById(req, res) {
   if (req.params.contactId != null) {
+    console.log("req.params.contactId", req.params.contactId);
     try {
-      const contact = await Contact.findById(req.params.contactId);
+      const contactId = String(req.params.contactId);
+      if (!contactId.match(/^[0-9a-fA-F]{24}$/))
+        throw new Error("Invalid contactId");
+      const contact = await Contact.findById({ _id: contactId });
       res.json(contact);
     } catch (err) {
       res.status(500).json({ message: err.message });
@@ -32,21 +36,21 @@ export async function create(req, res) {
     const body = req.body;
     // Create contact object
     let contact = new Contact({
-        firstName: body.firstName,
-        lastName: body.lastName,
-        twitter: body.twitter,
-        avatar: body.avatar,
-        notes: body.notes
-    })
+      firstName: body.firstName,
+      lastName: body.lastName,
+      twitter: body.twitter,
+      avatar: body.avatar,
+      notes: body.notes,
+    });
     try {
-        const newContact = await contact.save();
-        res.status(201).json(newContact);
+      const newContact = await contact.save();
+      res.status(201).json(newContact);
     } catch (error) {
-        console.log('error', error.message);
-        res.status(400).json({ message: error.message });
+      console.log("error", error.message);
+      res.status(400).json({ message: error.message });
     }
   } else {
-      res.status(400);
+    res.status(400);
   }
 }
 
@@ -55,7 +59,7 @@ export async function update(req, res) {
   try {
     if (!req.body && !req.params.contactId) {
       res.status(400).send({
-        message: "Query can not be empty!"
+        message: "Query can not be empty!",
       });
       return;
     }
@@ -65,7 +69,7 @@ export async function update(req, res) {
 
     if (!contact) {
       res.status(400).send({
-        message: "No contact found with id: " + contactId
+        message: "No contact found with id: " + contactId,
       });
     }
 
@@ -75,7 +79,7 @@ export async function update(req, res) {
       twitter: body.twitter,
       avatar: body.avatar,
       notes: body.notes,
-      favorite: body.favorite
+      favorite: body.favorite,
     });
 
     await contact.save();
@@ -92,7 +96,7 @@ export async function deleteById(req, res) {
     // Validate request
     if (!req.params?.contactId) {
       res.status(400).send({
-        message: "Query can not be empty!"
+        message: "Query can not be empty!",
       });
       return;
     }
@@ -103,7 +107,7 @@ export async function deleteById(req, res) {
     const contacts = await findContacts();
     res.status(201).json(contacts);
   } catch (error) {
-    console.error('Error deleting contact by ID:', error);
+    console.error("Error deleting contact by ID:", error);
     res.status(500).json({ message: error.message });
   }
 }
@@ -112,13 +116,13 @@ export async function deleteById(req, res) {
 
 // Retrieve Contacts from the database.
 async function findContacts(searchTerm = "") {
-  const searchRegex = new RegExp(searchTerm, 'i');
+  const searchRegex = new RegExp(searchTerm, "i");
   const query = {
     $or: [
       { firstName: { $regex: searchRegex } },
       { lastName: { $regex: searchRegex } },
-      { twitter: { $regex: searchRegex } }
-    ]
+      { twitter: { $regex: searchRegex } },
+    ],
   };
 
   return await Contact.find(query);
