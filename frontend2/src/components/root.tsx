@@ -50,7 +50,6 @@ export default function Root() {
   return (
     <>
       <div id="sidebar">
-        <h1>React Router Contacts</h1>
         <div>
           <input
             id="q"
@@ -66,38 +65,40 @@ export default function Root() {
         </div>
         {loading ? (
           <p>
-            <i>Loading</i>
+            <i>Loading...</i>
           </p>
         ) : (
-          <nav>
+          <>
             {contacts && contacts.length ? (
-              <ul>
-                {contacts.map((contact: ContactModel) => (
-                  <li key={contact.contactId}>
-                    <NavLink
-                      to={`/contacts/${contact.contactId}`}
-                      className={({ isActive, isPending }) =>
-                        isActive ? "active" : isPending ? "pending" : ""
-                      }
-                    >
-                      {contact.firstName || contact.lastName ? (
-                        <>
-                          {contact.firstName} {contact.lastName}
-                        </>
-                      ) : (
-                        <i>No Name</i>
-                      )}{" "}
-                      {contact.favorite && <span>★</span>}
-                    </NavLink>
-                  </li>
-                ))}
-              </ul>
+              <nav>
+                <ul>
+                  {contacts.map((contact: ContactModel) => (
+                    <li key={contact.contactId}>
+                      <NavLink
+                        to={`/contacts/${contact.contactId}`}
+                        className={({ isActive, isPending }) =>
+                          isActive ? "active" : isPending ? "pending" : ""
+                        }
+                      >
+                        {contact.firstName || contact.lastName ? (
+                          <>
+                            {contact.firstName} {contact.lastName}
+                          </>
+                        ) : (
+                          <i>No Name</i>
+                        )}{" "}
+                        {contact.favorite && <span>★</span>}
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
             ) : (
               <p>
                 <i>No contacts</i>
               </p>
             )}
-          </nav>
+          </>
         )}
       </div>
       <div id="detail">

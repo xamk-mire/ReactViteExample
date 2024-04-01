@@ -1,0 +1,39 @@
+services:
+  mongodb:
+    image: mongo
+    restart: unless-stopped
+    volumes:
+      - mongo_db:/data/db
+    networks:
+      - express-mongo
+    expose:
+      - 27017
+
+  backend:
+    depends_on:
+      - mongodb
+    restart: always
+    build: ./backend
+    networks:
+      - express-mongo
+      - react-express
+    expose: 
+      - 5000
+
+  frontend2:
+    depends_on:
+      - backend
+    restart: always
+    build: ./frontend2
+    ports:
+      - "3000:3000"
+    networks:
+      - react-express
+
+volumes:
+  mongo_db:
+
+networks:
+  react-express:
+  express-mongo:
+
