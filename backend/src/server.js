@@ -3,12 +3,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import swagger from "../swaggerConfig.js";
+import connectDB from "./db.js";
 
 dotenv.config();
 const app = express();
-
-// Connect to database
-connectDB(app);
 
 var corsOptions = {
   // URL for frontend, port: 5173 by default in vite
@@ -24,6 +22,9 @@ app.use(express.json());
 
 // Build swagger api's
 swagger(app, port);
+
+// Connect to database
+connectDB(app);
 
 // Listen for frontend api request
 app.listen(port, () => {

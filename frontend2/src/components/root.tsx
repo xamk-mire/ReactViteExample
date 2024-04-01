@@ -69,7 +69,7 @@ export default function Root() {
           </p>
         ) : (
           <>
-            {contacts && contacts.length ? (
+            {contacts && contacts.length > 0 ? (
               <nav>
                 <ul>
                   {contacts.map((contact: ContactModel) => (

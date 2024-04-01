@@ -1,5 +1,6 @@
 services:
   mongodb:
+    container_name: mongoDB
     image: mongo
     restart: unless-stopped
     volumes:
@@ -10,6 +11,7 @@ services:
       - 27017
 
   backend:
+    container_name: backend
     depends_on:
       - mongodb
     restart: always
@@ -21,6 +23,7 @@ services:
       - 5000
 
   frontend2:
+    container_name: frontend2
     depends_on:
       - backend
     restart: always
