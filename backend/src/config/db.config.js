@@ -16,14 +16,14 @@ export const dialect = "postgres";
 // pool: Configuration for the connection pool, which is a cache of database connections maintained so they can be reused
 export const pool = {
   // max: Maximum number of connections in pool
-  max: 5, 
+  max: 5,
 
   // min: Minimum number of connections in pool
-  min: 0, 
+  min: 0,
 
   // acquire: Maximum time, in milliseconds, that pool will try to get connection before throwing error
-  acquire: 30000, 
+  acquire: 30000,
 
   // idle: Maximum time, in milliseconds, that a connection can be idle before being released
-  idle: 10000 
+  idle: 10000,
 };

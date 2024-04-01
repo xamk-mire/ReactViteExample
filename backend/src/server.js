@@ -1,52 +1,32 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import { router as contactRouterMongoDB } from './routes/mongoDB/contactRoutes.js';
-import { router as contactRouterPostgreSQL } from './routes/postgreSQL/contactRoutes.js';
-import bodyParser from 'body-parser';
-import db from './models/postgreSQL/index.js' // Used for sequalize to reset postgreSQL db
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import bodyParser from "body-parser";
+import swagger from "../swaggerConfig.js";
+import connectDB from "./db.js";
 
 dotenv.config();
 const app = express();
 
 var corsOptions = {
-  // URL for frontend, port: 5173 by default in vite 
-  origin: "http://localhost:5173"
+  // URL for frontend, port: 5173 by default in vite
+  origin: process.env.CLIENT_ORIGIN || "http://localhost:5173",
 };
 
-const port = 5000;
+// Backend server port
+const port = process.env.PORT || 5000;
 app.use(cors(corsOptions));
 app.unsubscribe(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Get current db context from env file
-const dbContext = process.env.DB_CONTEXT;
+// Build swagger api's
+swagger(app, port);
 
-// Check which db is in use, default to mongodb
-if (!!dbContext && dbContext == "postgreSQL") {
-  // Used to reset/recreate postgreSQL db
-  /*
-  db.sequelize.sync({ force: true }).then(() => {
-    console.log("Drop and re-sync db.");
-  });
-  */
-  db.sequelize.sync().then(() => {
-    console.log("Created the table");
-  });
-  app.use('/api/contacts', contactRouterPostgreSQL);
-} else {
-  // Connect to mongodb
-  // In case of ECONNREFUSED error, try changing the localhost to 0.0.0.0 or 127.0.0.1 
-  mongoose.connect('mongodb://localhost:27017/ContactsDB');
-  const db = mongoose.connection;
-  db.on('error', (error) => console.error(error));
-  db.once('open', () => console.log('Connected to Database'));
+// Connect to database
+connectDB(app);
 
-  app.use('/api/contacts', contactRouterMongoDB);
-}
-
+// Listen for frontend api request
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

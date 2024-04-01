@@ -96,7 +96,7 @@ export async function update(req, res) {
       twitter: req.body.twitter,
       avatar: req.body.avatar,
       notes: req.body.notes,
-      favorite: req.body.favorite
+      favorite: req.body.favorite,
     };
 
     await Contact.update(updateData, {
