@@ -19,8 +19,6 @@ COPY . /usr/src/app
 # For a Vite-based React application, this typically produces a production build of the app in the dist directory.
 RUN npm run build
 
-EXPOSE 3000
-
 # Serve the app
 CMD ["npm", "start"]
 

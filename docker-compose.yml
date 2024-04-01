@@ -9,25 +9,33 @@ services:
       - express-mongo
     expose:
       - 27017
+    ports:
+      - "27017:27017"
 
   backend:
     container_name: backend
     depends_on:
       - mongodb
     restart: always
-    build: ./backend
+    build: 
+      context: backend
+      target: development
     networks:
       - express-mongo
       - react-express
     expose: 
       - 5000
+    ports:
+      - "5000:5000"
 
   frontend2:
     container_name: frontend2
     depends_on:
       - backend
     restart: always
-    build: ./frontend2
+    build: 
+      context: frontend2
+      target: development
     ports:
       - "3000:3000"
     networks:

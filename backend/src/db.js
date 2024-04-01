@@ -30,7 +30,7 @@ const connectDB = (app) => {
 
         const connectWithRetry = () => {
             mongoose.Promise = global.Promise;
-            const uri = process.env.MONGODB_URI;
+            const uri = "mongodb://mongodb:27017/ContactsDB"; //process.env.MONGODB_URI;
             console.log("MongoDB connection with retry");
             mongoose.connect(uri, options)
                 .then(() => {
