@@ -40,6 +40,8 @@ services:
       - "3000:3000"
     networks:
       - react-express
+    volumes:
+      - type: bind
 
 volumes:
   mongo_db:

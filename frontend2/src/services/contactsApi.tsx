@@ -6,7 +6,6 @@ const API_URL = "http://localhost:5000/api/contacts";
 // Get contacts list based on search query
 export async function getContactsDB(query: string = "") {
   const response: AxiosResponse = await axios.get(`${API_URL}/?q=${query}`);
-  console.log(response);
   if (!response.data) return [];
   const data: ContactModel[] = response.data;
   return data;

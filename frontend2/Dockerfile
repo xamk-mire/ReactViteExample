@@ -1,5 +1,5 @@
 # Use the latest official Node.js as a parent image
-FROM  node:lts-buster AS development
+FROM  node:lts-alpine AS development
 
 # This line sets the working directory within the Docker container. All subsequent commands will be run from this directory.
 WORKDIR /usr/src/app

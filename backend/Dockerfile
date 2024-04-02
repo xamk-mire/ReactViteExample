@@ -1,5 +1,5 @@
 # Use the latest Node.js as a parent image
-FROM  node:lts-buster as development
+FROM  node:lts-alpine as development
 
 # Set the working directory
 WORKDIR /usr/src/app
