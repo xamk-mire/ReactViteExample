@@ -20,6 +20,9 @@ services:
     build: 
       context: backend
       target: development
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
     networks:
       - express-mongo
       - react-express
@@ -33,9 +36,7 @@ services:
     depends_on:
       - backend
     restart: always
-    build: 
-      context: frontend2
-      target: development
+    build: frontend2
     volumes:
       - ./frontend2:/app
       - /app/node_modules
