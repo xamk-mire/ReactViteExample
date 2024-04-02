@@ -42,6 +42,8 @@ services:
       - react-express
     volumes:
       - type: bind
+      - source: .
+      - target: app
 
 volumes:
   mongo_db:
