@@ -2,7 +2,7 @@
 FROM  node:lts-alpine as development
 
 # Set the working directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copy package.json and package-lock.json
 COPY package*.json .
@@ -11,7 +11,7 @@ COPY package*.json .
 RUN npm ci
 
 # Bundle app source
-COPY . /usr/src/app
+COPY . /app
 
 # Your app binds to port 5000 so you'll use the EXPOSE instruction to have it mapped by the docker daemon
 EXPOSE 5000

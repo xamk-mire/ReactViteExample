@@ -36,14 +36,13 @@ services:
     build: 
       context: frontend2
       target: development
+    volumes:
+      - ./frontend2:/app
+      - /app/node_modules
     ports:
       - "3000:3000"
     networks:
       - react-express
-    volumes:
-      - type: bind
-      - source: .
-      - target: app
 
 volumes:
   mongo_db:
